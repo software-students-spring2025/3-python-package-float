@@ -25,6 +25,9 @@ tips = {
 }
 
 def debug_tip(error_type):
+   """
+   Returns random debugging tip based on the error type.
+   """
    error_type = error_type.lower()
 
    if error_type in tips:
