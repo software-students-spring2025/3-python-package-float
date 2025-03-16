@@ -28,8 +28,10 @@ def debug_tip(error_type):
    """
    Returns random debugging tip based on the error type.
    """
-   error_type = error_type.lower()
+   if not isinstance(error_type, str):
+      return "Error: Please provide an error type as a string"
 
+   error_type = error_type.lower()
    if error_type in tips:
       return random.choice(tips[error_type])
    return "Unknown error type. Enter 'syntax', 'runtime', or 'logic'."
