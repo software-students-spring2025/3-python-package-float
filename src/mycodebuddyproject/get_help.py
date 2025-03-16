@@ -22,8 +22,10 @@ def language_help(language):
    """
    Returns a link for useful information given a programming language.
    """
-   language = language.lower()
+   if not isinstance(language, str):
+      return "Error: Please provide a language name as a string."
 
+   language = language.lower()
    if language in docs:
       return docs[language]
    return f"Help not available for {language}. Try one of the following: {", ".join(docs.keys())}"
