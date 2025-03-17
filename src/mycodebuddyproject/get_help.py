@@ -28,4 +28,4 @@ def language_help(language):
    language = language.lower()
    if language in docs:
       return docs[language]
-   return f"Help not available for {language}. Try one of the following: {", ".join(docs.keys())}"
+   return f"Help not available for {language}. Try one of the following: {', '.join(docs.keys())}"
