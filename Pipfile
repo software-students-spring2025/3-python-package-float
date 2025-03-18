@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-mycodebuddy = {file = ".", editable = true}
+mycodebuddyproject = {file = ".", editable = true}
 
 [dev-packages]
 pytest = "*"
