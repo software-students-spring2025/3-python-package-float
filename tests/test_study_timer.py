@@ -1,12 +1,12 @@
 import time
 import pytest
-from study_timer import StudyTimer
+import src.mycodebuddyproject.study_timer as st
 
 @pytest.fixture
 def timer(monkeypatch):
     # Override sleep to speed up tests
     monkeypatch.setattr(time, "sleep", lambda x: None)
-    return StudyTimer()
+    return st.StudyTimer()
 
 def test_start_timer(timer, monkeypatch):
     monkeypatch.setattr("builtins.input", lambda prompt: "1")
