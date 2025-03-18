@@ -7,7 +7,10 @@ name = "mycodebuddyproject"
 description = "An example of a package developed with pipenv, built with build using setuptools, uploaded to PyPI using twine, and distributed via pip."
 version = "0.1.1"
 authors = [
-  { name="Melissa Kelly", email="mlk9103@nyu.edu" },{name="Angel Serrano", email= ads8881@nyu.edu"},{name="Aria Nguyen", email = "ann9911@nyu.edu"}, {name = "Emily", email="sl8839@nyu.edu"}
+  { name = "Melissa Kelly", email = "mlk9103@nyu.edu" },
+  { name = "Angel Serrano", email = "ads8881@nyu.edu" },
+  { name = "Aria Nguyen", email = "ann9911@nyu.edu" },
+  { name = "Emily", email = "sl8839@nyu.edu" }
 ]
 license = { file = "LICENSE" }
 readme = "README.md"
