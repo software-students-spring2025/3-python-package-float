@@ -117,25 +117,36 @@ def main():
             # study timer menu
                 timer = StudyTimer()
                 while True:
-                    action = int(input("\nStudy Timer Options:\n1. Start Studying\n2. Stop/Break\n3. Resume\n4. Exit Timer\nChoose an option (1-4): "))
-                    if action == 1:
+                    command = input("Enter command (start, pause, resume, cancel, exit): ").strip().lower()
+                    if command == "start":
+                        timer = StudyTimer()
                         timer.start()
-                    elif action == 2:
-                        response = timer.stop()
-                        if response == "yes":
-                            print("Enjoy your break!")
-                    elif action == 3:
-                        timer.resume()
-                    elif action == 4:
-                        print("Exiting Study Timer.")
+                        while timer.running or timer.paused:
+                            sub_cmd = input("Enter timer command (pause, resume, cancel, exit timer): ").strip().lower()
+                            if sub_cmd == "pause":
+                                timer.pause()
+                            elif sub_cmd == "resume":
+                                timer.resume()
+                            elif sub_cmd == "cancel":
+                                timer.cancel()
+                            elif sub_cmd == "exit timer":
+                                print("Exiting timer...")
+                                break
+                            # Check for completion in the main thread:
+                            if timer.completed:
+                                timer.completed = False
+                                break
+                    elif command == "exit":
+                        print("Exiting MyCodeBuddy.")
                         break
                     else:
-                        print("Not a valid type. Please choose a number between 1-4.")
-
+                        print("Unknown command. Please try again.")
         except ValueError as e:
-                print(e)
-    except ValueError as e:
             print(e)
+
+    except ValueError as e:
+        print(e)
+       
 
 
 if __name__ == "__main__":
