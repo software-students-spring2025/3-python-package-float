@@ -4,9 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pytest = "*"
-build = "*"
-mycodebuddyproject = {file = ".", editable = true}
+gitcommitlogger = "*"
+requests = "*"
+pytz = "*"
+python-dateutil = "*"
 
 [dev-packages]
 
