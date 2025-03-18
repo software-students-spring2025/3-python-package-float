@@ -78,8 +78,41 @@ get("features")
 If you’d like to contribute:
 
 1. Clone the repository using:
-   ```
+   ```bash
    git clone https://github.com/software-students-spring2025/3-python-package-float.git
+   cd 3-python-package-float
    ```
-2. Creat
+2. Create and run virtual environment
+   ```bash
+   # Install or update pipenv if needed
+   pip install --upgrade pipenv
 
+   # Create virtual environment and install dependencies
+   pipenv install --dev
+
+   # Activate virtual environment
+   pipenv shell
+   ```
+3. Create a new branch and make your changes.
+   ```bash
+   git checkout -b branch-name
+   ```
+
+4. Run all pytests with the following command:
+   ```bash
+   pytest
+   ```
+
+5. Build the package with the following command:
+   ```bash
+   python -m build
+   ```
+
+6. Commit and push changes
+   ```bash
+   git add .
+   git commit -m "description of changes"
+   git push origin branch-name
+   ```
+
+7. Make a pull request on this projects repository on Github.
