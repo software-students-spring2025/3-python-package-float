@@ -1,91 +1,54 @@
+from mycodebuddyproject.study_timer import StudyTimer
 import time
-import threading
-from tkinter import messagebox
-import platform
+import pytest
 
-class StudyTimer:
-    def __init__(self):
-        self.study_minutes = None      
-        self.start_time = None        
-        self.elapsed_time = 0          
-        self.running = False           
-        self.paused = False            
-        self.timer_thread = None       
-        self.completed = False  
-        self._can_tick = None  # Internal event to delay tick loop start
 
-    def _track_time(self):
-        # Wait until ticks are enabled.
-        self._can_tick.wait()
-        while self.running:
-            # Check for completion at the start of the loop.
-            if self.study_minutes is not None and self.elapsed_time >= self.study_minutes * 60:
-                self.running = False
-                self.completed = True
-                print(f"\nCONGRATS ON LOCKING IN FOR {self.study_minutes} MINUTES! \nNow it's time for a break")
-                break
 
-            if self.paused:
-                time.sleep(1)
-                continue
+@pytest.fixture
+def timer(monkeypatch):
+    # Override sleep to speed up tests
+    monkeypatch.setattr(time, "sleep", lambda x: None)
+    return StudyTimer()
 
-            time.sleep(1)
-            self.elapsed_time += 1
+def test_start_timer(timer, monkeypatch):
+    monkeypatch.setattr("builtins.input", lambda prompt: "1")
+    timer.start()
+    assert timer.running is True, "Expected timer.running to be True after start()"
+    assert timer.study_minutes == 1, "Expected study_minutes to be set to 1"
+    assert timer.elapsed_time == 0, "Expected elapsed_time to be 0 immediately after starting"
 
-    def start(self):
-        if self.running:
-            print("Study session is already running!")
-            return
+def test_pause_resume_cancel(timer, monkeypatch):
+    # Start the timer with 1 minute duration
+    monkeypatch.setattr("builtins.input", lambda prompt: "1")
+    timer.start()
+    
+    # Pause the timer
+    timer.pause()
+    assert timer.paused is True, "Expected timer.paused to be True after pause()"
+    
+    # Resume the timer
+    timer.resume()
+    assert timer.paused is False, "Expected timer.paused to be False after resume()"
+    
+    # Cancel the timer
+    timer.cancel()
+    assert timer.running is False, "Expected timer.running to be False after cancel()"
 
-        try:
-            minutes = int(input("Enter the number of minutes you want to study: "))
-            if minutes <= 0:
-                print("Please enter a positive number.")
-                return
-            self.study_minutes = minutes
-        except ValueError:
-            print("Invalid input. Please enter a valid number.")
-            return
-
-        self.elapsed_time = 0
-        self.running = True
-        self.paused = False
-        self.completed = False
-        self.start_time = time.time()
-        self._can_tick = threading.Event()
-        self.timer_thread = threading.Thread(target=self._track_time, daemon=True)
-        self.timer_thread.start()
-
-        # Use a slight delay to allow tests to observe the initial state.
-        threading.Timer(0.1, self._can_tick.set).start()
-
-        print("Study session started! Good luck, you got it!!")
-        print("Enter 'pause' to pause the session at any time.")
-
-    def pause(self):
-        if not self.running:
-            print("No study session is running.")
-            return
-        if self.paused:
-            print("Study session is already paused.")
-            return
-        self.paused = True
-        print("Study session paused, please enter 'resume' when you want to resume.")
-
-    def resume(self):
-        if not self.running:
-            print("No study session is running.")
-            return
-        if not self.paused:
-            print("Study session is not paused.")
-            return
-        self.paused = False
-        print("Resuming now.")
-
-    def cancel(self):
-        if not self.running:
-            print("No study session is currently running.")
-            return
-        self.running = False
-        self.paused = False
-        print("Study session canceled.")
+def test_completion(timer, monkeypatch):
+    # Capture the original sleep function.
+    original_sleep = time.sleep
+    # Replace time.sleep with a lambda that yields briefly.
+    monkeypatch.setattr(time, "sleep", lambda x: original_sleep(0.001))
+    monkeypatch.setattr("builtins.input", lambda prompt: "1")
+    timer.start()
+    
+    # Force the elapsed time to reach the target (1 minute = 60 seconds)
+    timer.elapsed_time = timer.study_minutes * 60
+    
+    # Wait (busy-poll) until timer.running becomes False or a timeout occurs.
+    start_time = time.time()
+    while timer.running and (time.time() - start_time) < 0.5:
+        original_sleep(0.001)
+    
+    assert timer.running is False, "Expected timer.running to be False after completion"
+    assert timer.completed is True, "Expected timer.completed to be True after reaching study time"

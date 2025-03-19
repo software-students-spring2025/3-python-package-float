@@ -1,16 +1,12 @@
 from mycodebuddyproject.study_timer import StudyTimer
 import time
 import pytest
-<<<<<<< HEAD
-from mycodebuddyproject.study_timer import StudyTimer
-=======
 
-
->>>>>>> Siyu
 
 @pytest.fixture
 def timer(monkeypatch):
-    # Return a new StudyTimer instance for each test.
+    # Override sleep to speed up tests
+    monkeypatch.setattr(time, "sleep", lambda x: None)
     return StudyTimer()
 
 def test_start_timer(timer, monkeypatch):
@@ -21,15 +17,19 @@ def test_start_timer(timer, monkeypatch):
     assert timer.elapsed_time == 0, "Expected elapsed_time to be 0 immediately after starting"
 
 def test_pause_resume_cancel(timer, monkeypatch):
+    # Start the timer with 1 minute duration
     monkeypatch.setattr("builtins.input", lambda prompt: "1")
     timer.start()
-    # Pause the timer.
+    
+    # Pause the timer
     timer.pause()
     assert timer.paused is True, "Expected timer.paused to be True after pause()"
-    # Resume the timer.
+    
+    # Resume the timer
     timer.resume()
     assert timer.paused is False, "Expected timer.paused to be False after resume()"
-    # Cancel the timer.
+    
+    # Cancel the timer
     timer.cancel()
     assert timer.running is False, "Expected timer.running to be False after cancel()"
 
@@ -41,7 +41,7 @@ def test_completion(timer, monkeypatch):
     monkeypatch.setattr("builtins.input", lambda prompt: "1")
     timer.start()
     
-    # Force elapsed_time to reach the target (1 minute = 60 seconds).
+    # Force the elapsed time to reach the target (1 minute = 60 seconds)
     timer.elapsed_time = timer.study_minutes * 60
     
     # Wait (busy-poll) until timer.running becomes False or a timeout occurs.
