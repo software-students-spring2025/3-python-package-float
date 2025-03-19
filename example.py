@@ -15,7 +15,7 @@ print(fun_facts.get("features"))
 
 print("Start a study timer for 2 minutes")
 timer = StudyTimer()  # Create an instance of StudyTimer
-timer.start(2)       # Start a 25-minute study session
+timer.start(2)       # Start a 2-minute study session
 timer.pause()         # Pause the session
 timer.resume()        # Resume the session
 timer.cancel()        # Cancel the session
