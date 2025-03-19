@@ -1,85 +1,73 @@
 import time
 import threading
-import tkinter as tk  # Using this so we can have a popup when time is up
-from tkinter import messagebox
-import platform
+
 
 class StudyTimer:
     def __init__(self):
-        self.study_minutes = None      
-        self.start_time = None        
-        self.elapsed_time = 0          
-        self.running = False           
-        self.paused = False            
-        self.timer_thread = None       
-        self.completed = False         
+        self.start_time = None
+        self.elapsed_time = 0
+        self.running = False
+        self.timer_thread = None
+        self.study_duration = 0  # Total study duration in seconds
+        self.timer_expired = False
+        self.break_prompt = False
+
 
     def _track_time(self):
-        # This method runs on a separate thread.
-        while self.running:
-            if self.paused:
-                time.sleep(1)  # If paused, sleep and loop without incrementing time.
-                continue
-            time.sleep(1)     
-            self.elapsed_time += 1  
-            if self.study_minutes is not None and self.elapsed_time >= self.study_minutes * 60:
-                self.running = False
-                self.completed = True  # Set the flag indicating completion.
-                print(f"\nCONGRATS ON LOCKING IN FOR {self.study_minutes} MINUTES! \n Now it's time for a break")
-                break
+        while self.running and self.elapsed_time < self.study_duration:
+            time.sleep(1)
+            self.elapsed_time += 1
+        if self.elapsed_time >= self.study_duration:
+            self.stop()  # Automatically stop when time is up
+            self.timer_expired = True
+            self.break_prompt = True
 
 
-    def start(self):
+    def start(self):  # starts session time
         if self.running:
             print("Study session is already running!")
             return
-
-        # Ask the user for the duration in minutes.
+        
+        # Get user input for how many minutes to study
         try:
-            minutes = int(input("Enter the number of minutes you want to study: "))
-            if minutes <= 0:
-                print("Please enter a positive number.")
-                return
-            self.study_minutes = minutes
+            minutes = int(input("How many minutes would you like to study for? "))
+            self.study_duration = minutes * 60  # Convert minutes to seconds
         except ValueError:
-            print("Invalid input. Please enter a valid number.")
+            print("Please enter a valid number.")
             return
 
-        self.elapsed_time = 0
+        if self.study_duration <= 0:
+            print("Please enter a positive number of minutes.")
+            return
+        
         self.running = True
-        self.paused = False  # Make sure the timer starts unpaused.
-        self.completed = False  # Reset the completed flag.
         self.start_time = time.time()
+        self.elapsed_time = 0
         self.timer_thread = threading.Thread(target=self._track_time, daemon=True)
         self.timer_thread.start()
-        print("Study session started! Good luck, you got it!!")
-        print("Enter 'pause' to pause the session at any time.")
+        print(f"Study session started for {minutes} minutes! Good luck, you got it!!")
 
-    def pause(self):
-        if not self.running:
-            print("No study session is running.")
-            return
-        if self.paused:
-            print("Study session is already paused.")
-            return
-        self.paused = True
-        print("Study session paused, please enter 'resume' when you want to resume.")
 
-    def resume(self):
-        if not self.running:
-            print("No study session is running.")
-            return
-        if not self.paused:
-            print("Study session is not paused.")
-            return
-        self.paused = False
-        print("Resuming now.")
-
-    def cancel(self):
+    def stop(self):  # stops / asks user for break
         if not self.running:
             print("No study session is currently running.")
             return
         self.running = False
-        self.paused = False
-        print("Study session canceled.")
+        if self.elapsed_time >= self.study_duration:
+            print(f"\nBEEP! BEEP! BEEP! Timer has expired. Total time: {self.elapsed_time // 60} min {self.elapsed_time % 60} sec")
+            return
+        else:
+            self.break_prompt = True
+            print(f"Timer is stopped. Total time: {self.elapsed_time // 60} min {self.elapsed_time % 60} sec")
+            return input("Would you like a break? (yes/no): ").strip().lower()
+
+
+    def resume(self):  # resumes session after break
+        if self.running:
+            print("Study session is already running!")
+            return
+        print("Resuming study session...")
+        self.running = True
+        self.timer_thread = threading.Thread(target=self._track_time, daemon=True)
+        self.timer_thread.start()
 
