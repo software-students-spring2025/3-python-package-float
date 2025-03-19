@@ -37,22 +37,22 @@ class StudyTimer:
             self.elapsed_time += 1
 
 
-    def start(self):
+    def start(self, minutes = 0):
         if self.running:
-            print("Study session is already running!")
+            print("\nStudy session is already running!")
             return
-
-
-        try:
-            minutes = int(input("Enter the number of minutes you want to study: "))
-            if minutes <= 0:
-                print("Please enter a positive number.")
+        if minutes == 0:
+            try:
+                minutes = int(input("\nEnter the number of minutes you want to study: "))
+                if minutes <= 0:
+                    print("Please enter a positive number.")
+                    return
+                self.study_minutes = minutes
+            except ValueError:
+                print("Invalid input. Please enter a valid number.")
                 return
-            self.study_minutes = minutes
-        except ValueError:
-            print("Invalid input. Please enter a valid number.")
-            return
-
+        else:
+            self.study_minutes=minutes
 
         self.elapsed_time = 0
         self.running = True
@@ -68,7 +68,7 @@ class StudyTimer:
         threading.Timer(0.1, self._can_tick.set).start()
 
 
-        print("Study session started! Good luck, you got it!!")
+        print("\nStudy session started! Good luck, you got it!!")
         print("Enter 'pause' to pause the session at any time.")
 
 
@@ -80,7 +80,7 @@ class StudyTimer:
             print("Study session is already paused.")
             return
         self.paused = True
-        print("Study session paused, please enter 'resume' when you want to resume.")
+        print("\nStudy session paused, please enter 'resume' when you want to resume.")
 
 
     def resume(self):
