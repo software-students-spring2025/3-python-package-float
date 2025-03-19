@@ -113,9 +113,6 @@ def main():
                     print("Error executing program")
                     exit()
             elif function == 4:
-                timer = StudyTimer()
-                timer.start(1)
-            elif function == 5:
             # study timer menu
                 timer = StudyTimer()
                 while True:
