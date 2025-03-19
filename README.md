@@ -10,23 +10,23 @@ A Python package designed to assist you throughout your coding projects. This pa
 - [Siyu Lei](https://github.com/em815)
 
 ## Link to package on PyPI
-[MyCodeBuddy](https://pypi.org/)
+[MyCodeBuddyProject](https://test.pypi.org/project/mycodebuddyproject/0.1.2/#description)
 
 ## Developer Instructions
 
 ### Step 1: Install the Package
-To use MyCodeBuddy in your project, first install it from PyPI. In your terminal or command prompt, type:
+To use MyCodeBuddyProject in your project, first install it from PyPI. In your terminal or command prompt, type:
 ```
-pip install mycodebuddy
+pip install mycodebuddyproject
 ```
 
 ### Step 2: Import Package
-After installing the package, import mycodebuddy functions so they can be used directly in your code.
+After installing the package, import mycodebuddyproject functions so they can be used directly in your code.
 
 A sample program can be found [here](https://github.com/software-students-spring2025/3-python-package-float/blob/main/src/mycodebuddyproject/example.py).
 
 ```python
-from mycodebuddy import debug_tip, get, language_help, StudyTimer
+from mycodebuddyproject import debug_tip, get, language_help, StudyTimer
 
 # example uses
 print(debug_tip("runtime"))      # Get a debugging tip for runtime errors
