@@ -37,11 +37,11 @@ class StudyTimer:
             self.elapsed_time += 1
 
 
-    def start(self, minutes = 0):
+    def start(self, minutes = -1):
         if self.running:
             print("\nStudy session is already running!")
             return
-        if minutes == 0:
+        if minutes <= 0:
             try:
                 minutes = int(input("\nEnter the number of minutes you want to study: "))
                 if minutes <= 0:
