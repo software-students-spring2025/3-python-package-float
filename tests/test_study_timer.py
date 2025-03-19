@@ -2,8 +2,6 @@ from src.mycodebuddyproject.study_timer import StudyTimer
 import time
 import pytest
 
-
-
 @pytest.fixture
 def timer(monkeypatch):
     # Override sleep to speed up tests
@@ -12,8 +10,8 @@ def timer(monkeypatch):
 
 
 def test_start_timer(timer, monkeypatch):
-    monkeypatch.setattr("builtins.input", lambda prompt: "1")
-    timer.start()
+    #monkeypatch.setattr("builtins.input", lambda prompt: "1")
+    timer.start(1)
     assert timer.running is True, "Expected timer.running to be True after start()"
     assert timer.study_minutes == 1, "Expected study_minutes to be set to 1"
     assert timer.elapsed_time == 0, "Expected elapsed_time to be 0 immediately after starting"
