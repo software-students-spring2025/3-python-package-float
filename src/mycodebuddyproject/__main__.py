@@ -112,6 +112,7 @@ def main():
                 else:
                     print("Error executing program")
                     exit()
+            
             elif function == 4:
             # study timer menu
                 timer = StudyTimer()
