@@ -1,14 +1,8 @@
 from mycodebuddyproject.study_timer import StudyTimer
 import time
 import pytest
-<<<<<<< HEAD
-from mycodebuddyproject.study_timer import StudyTimer
-=======
 
 
->>>>>>> Siyu
-
-@pytest.fixture
 def timer(monkeypatch):
     # Return a new StudyTimer instance for each test.
     return StudyTimer()
