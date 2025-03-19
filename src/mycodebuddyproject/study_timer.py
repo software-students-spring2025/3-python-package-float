@@ -3,16 +3,18 @@ import threading
 from tkinter import messagebox
 import platform
 
+
 class StudyTimer:
     def __init__(self):
         self.study_minutes = None      
         self.start_time = None        
         self.elapsed_time = 0          
-        self.running = False           
+        self.running = False          
         self.paused = False            
-        self.timer_thread = None       
+        self.timer_thread = None      
         self.completed = False  
         self._can_tick = None  # Internal event to delay tick loop start
+
 
     def _track_time(self):
         # Wait until ticks are enabled.
@@ -22,20 +24,24 @@ class StudyTimer:
             if self.study_minutes is not None and self.elapsed_time >= self.study_minutes * 60:
                 self.running = False
                 self.completed = True
-                print(f"\nCONGRATS ON LOCKING IN FOR {self.study_minutes} MINUTES! \nNow it's time for a break")
+                print(f"\nCONGRATS ON LOCKING IN FOR {self.study_minutes} MINUTES! \nTurn off the alarm and take a break")
                 break
+
 
             if self.paused:
                 time.sleep(1)
                 continue
 
+
             time.sleep(1)
             self.elapsed_time += 1
+
 
     def start(self):
         if self.running:
             print("Study session is already running!")
             return
+
 
         try:
             minutes = int(input("Enter the number of minutes you want to study: "))
@@ -47,6 +53,7 @@ class StudyTimer:
             print("Invalid input. Please enter a valid number.")
             return
 
+
         self.elapsed_time = 0
         self.running = True
         self.paused = False
@@ -56,11 +63,14 @@ class StudyTimer:
         self.timer_thread = threading.Thread(target=self._track_time, daemon=True)
         self.timer_thread.start()
 
+
         # Use a slight delay to allow tests to observe the initial state.
         threading.Timer(0.1, self._can_tick.set).start()
 
+
         print("Study session started! Good luck, you got it!!")
         print("Enter 'pause' to pause the session at any time.")
+
 
     def pause(self):
         if not self.running:
@@ -72,6 +82,7 @@ class StudyTimer:
         self.paused = True
         print("Study session paused, please enter 'resume' when you want to resume.")
 
+
     def resume(self):
         if not self.running:
             print("No study session is running.")
@@ -81,6 +92,7 @@ class StudyTimer:
             return
         self.paused = False
         print("Resuming now.")
+
 
     def cancel(self):
         if not self.running:
