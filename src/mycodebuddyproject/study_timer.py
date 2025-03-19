@@ -12,22 +12,25 @@ class StudyTimer:
         self.paused = False            
         self.timer_thread = None       
         self.completed = False  
-        self._can_tick = None  
+        self._can_tick = None  # Internal event to delay tick loop start
 
     def _track_time(self):
-        # Wait until we're allowed to start ticking.
+        # Wait until ticks are enabled.
         self._can_tick.wait()
         while self.running:
-            if self.paused:
-                time.sleep(1)
-                continue
-            time.sleep(1)
-            self.elapsed_time += 1
+            # Check for completion at the start of the loop.
             if self.study_minutes is not None and self.elapsed_time >= self.study_minutes * 60:
                 self.running = False
                 self.completed = True
                 print(f"\nCONGRATS ON LOCKING IN FOR {self.study_minutes} MINUTES! \nNow it's time for a break")
                 break
+
+            if self.paused:
+                time.sleep(1)
+                continue
+
+            time.sleep(1)
+            self.elapsed_time += 1
 
     def start(self):
         if self.running:
@@ -53,7 +56,7 @@ class StudyTimer:
         self.timer_thread = threading.Thread(target=self._track_time, daemon=True)
         self.timer_thread.start()
 
-        # Delay the timer tick loop slightly so that immediate test assertions see the expected state.
+        # Use a slight delay to allow tests to observe the initial state.
         threading.Timer(0.1, self._can_tick.set).start()
 
         print("Study session started! Good luck, you got it!!")
