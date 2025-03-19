@@ -1,3 +1,19 @@
+"""
+Module: Python Fun Facts
+
+This module provides a function to return a random Python-related fun fact based on the given fact type.
+Fact types include 'features', 'libraries', 'trivia', and 'performance'. Each type returns a set of related fun facts.
+
+Function:
+    get(fact_type): Returns a random Python fun fact related to the specified type.
+
+Parameters:
+    fact_type (str): Type of fun fact ('features', 'libraries', 'trivia', 'performance').
+
+Returns:
+    str: A random Python fun fact or an error message if the type is unsupported.
+"""
+
 import random
 
 facts = {
