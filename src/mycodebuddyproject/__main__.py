@@ -114,33 +114,39 @@ def main():
                     exit()
             
             elif function == 4:
-            # study timer menu
-                timer = StudyTimer()
                 while True:
-                    command = input("Enter command (start, pause, resume, cancel, exit): ").strip().lower()
-                    if command == "start":
-                        timer = StudyTimer()
-                        timer.start()
-                        while timer.running or timer.paused:
-                            sub_cmd = input("Enter timer command (pause, resume, cancel, exit timer): ").strip().lower()
-                            if sub_cmd == "pause":
-                                timer.pause()
-                            elif sub_cmd == "resume":
-                                timer.resume()
-                            elif sub_cmd == "cancel":
-                                timer.cancel()
-                            elif sub_cmd == "exit timer":
-                                print("Exiting timer...")
-                                break
-                            # Check for completion in the main thread:
-                            if timer.completed:
-                                timer.completed = False
-                                break
-                    elif command == "exit":
-                        print("Exiting MyCodeBuddy.")
-                        break
-                    else:
-                        print("Unknown command. Please try again.")
+                    try:
+                        function = int(input("\nChoose an option:\n1. Study Timer\n2. Exit\nChoose an option (1-2): "))
+                        if function == 1:
+                            timer = StudyTimer()
+                            while True:
+                                if timer.timer_expired:
+                                    print("Study session has ended!")
+                                    break
+                                action = int(input("\nStudy Timer Options:\n1. Start Studying\n2. Stop/Break\n3. Resume\n4. Exit Timer\n5. Turn off alarm\nChoose an option (1-5): "))
+                                if action == 1:
+                                    timer.start()
+                                elif action == 2:
+                                    response = timer.stop()
+                                    if response == "yes":
+                                        print("Enjoy your break!")
+                                elif action == 3:
+                                    timer.resume()
+                                elif action == 4:
+                                    print("Exiting Study Timer.")
+                                    break
+                                elif action == 5:
+                                    break
+                                else:
+                                    print("Not a valid type. Please choose a number between 1-5.")
+
+                        elif function == 2:
+                            print("Exiting the program.")
+                            break
+                        else:
+                            print("Invalid option, please choose between 1 and 2.")
+                    except ValueError:
+                        print("Please enter a valid number.")
         except ValueError as e:
             print(e)
 
