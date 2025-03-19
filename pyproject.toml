@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mycodebuddy"
+name = "mycodebuddyproject"
 description = "An example of a package developed with pipenv, built with build using setuptools, uploaded to PyPI using twine, and distributed via pip."
 version = "0.1.1"
 authors = [
