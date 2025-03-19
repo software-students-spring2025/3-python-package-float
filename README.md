@@ -23,16 +23,29 @@ pip install mycodebuddyproject
 ### Step 2: Import Package
 After installing the package, import mycodebuddyproject functions so they can be used directly in your code.
 
-A sample program can be found [here](https://github.com/software-students-spring2025/3-python-package-float/blob/main/src/mycodebuddyproject/example.py).
+A sample program can be found [here](https://github.com/software-students-spring2025/3-python-package-float/example.py).
 
 ```python
-from mycodebuddyproject import debug_tip, get, language_help, StudyTimer
+import src.mycodebuddyproject.get_debug_tips as debug
+import src.mycodebuddyproject.get_help as get_help
+import src.mycodebuddyproject.fun_facts as fun_facts
+from src.mycodebuddyproject.study_timer import StudyTimer
 
-# example uses
-print(debug_tip("runtime"))      # Get a debugging tip for runtime errors
-print(language_help("python"))   # Get a documentation link for Python
-print(get("features"))           # Get a fun fact about Python features
-# last function here
+print("Get a debugging tip for runtime errors")
+print(debug.debug_tip("runtime"))
+
+print("# Get a documentation link for Python")
+print(get_help.language_help("python"))
+
+print("Get a fun fact about Python features")
+print(fun_facts.get("features"))
+
+print("Start a study timer for 2 minutes")
+timer = StudyTimer()  # Create an instance of StudyTimer
+timer.start(2)       # Start a 25-minute study session
+timer.pause()         # Pause the session
+timer.resume()        # Resume the session
+timer.cancel()        # Cancel the session
 ```
 
 ## Functions
