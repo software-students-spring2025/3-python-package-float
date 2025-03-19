@@ -1,6 +1,8 @@
+from mycodebuddyproject.study_timer import StudyTimer
 import time
 import pytest
-from study_timer import StudyTimer
+
+
 
 @pytest.fixture
 def timer(monkeypatch):
@@ -33,15 +35,20 @@ def test_pause_resume_cancel(timer, monkeypatch):
     assert timer.running is False, "Expected timer.running to be False after cancel()"
 
 def test_completion(timer, monkeypatch):
-    # Start the timer with 1 minute duration
+    # Capture the original sleep function.
+    original_sleep = time.sleep
+    # Replace time.sleep with a lambda that yields briefly.
+    monkeypatch.setattr(time, "sleep", lambda x: original_sleep(0.001))
     monkeypatch.setattr("builtins.input", lambda prompt: "1")
     timer.start()
     
     # Force the elapsed time to reach the target (1 minute = 60 seconds)
     timer.elapsed_time = timer.study_minutes * 60
-    # Let the background thread run one more cycle to pick up the change
-    time.sleep(0.1)
     
-    # After the loop, running should be set to False and completed flag should be True.
+    # Wait (busy-poll) until timer.running becomes False or a timeout occurs.
+    start_time = time.time()
+    while timer.running and (time.time() - start_time) < 0.5:
+        original_sleep(0.001)
+    
     assert timer.running is False, "Expected timer.running to be False after completion"
     assert timer.completed is True, "Expected timer.completed to be True after reaching study time"

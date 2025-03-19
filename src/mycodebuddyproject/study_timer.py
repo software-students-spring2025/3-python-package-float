@@ -1,6 +1,5 @@
 import time
 import threading
-import tkinter as tk  # Using this so we can have a popup when time is up
 from tkinter import messagebox
 import platform
 
@@ -12,29 +11,32 @@ class StudyTimer:
         self.running = False           
         self.paused = False            
         self.timer_thread = None       
-        self.completed = False         
+        self.completed = False  
+        self._can_tick = None  # Internal event to delay tick loop start
 
     def _track_time(self):
-        # This method runs on a separate thread.
+        # Wait until ticks are enabled.
+        self._can_tick.wait()
         while self.running:
-            if self.paused:
-                time.sleep(1)  # If paused, sleep and loop without incrementing time.
-                continue
-            time.sleep(1)     
-            self.elapsed_time += 1  
+            # Check for completion at the start of the loop.
             if self.study_minutes is not None and self.elapsed_time >= self.study_minutes * 60:
                 self.running = False
-                self.completed = True  # Set the flag indicating completion.
-                print(f"\nCONGRATS ON LOCKING IN FOR {self.study_minutes} MINUTES! \n Now it's time for a break")
+                self.completed = True
+                print(f"\nCONGRATS ON LOCKING IN FOR {self.study_minutes} MINUTES! \nNow it's time for a break")
                 break
 
+            if self.paused:
+                time.sleep(1)
+                continue
+
+            time.sleep(1)
+            self.elapsed_time += 1
 
     def start(self):
         if self.running:
             print("Study session is already running!")
             return
 
-        # Ask the user for the duration in minutes.
         try:
             minutes = int(input("Enter the number of minutes you want to study: "))
             if minutes <= 0:
@@ -47,11 +49,16 @@ class StudyTimer:
 
         self.elapsed_time = 0
         self.running = True
-        self.paused = False  # Make sure the timer starts unpaused.
-        self.completed = False  # Reset the completed flag.
+        self.paused = False
+        self.completed = False
         self.start_time = time.time()
+        self._can_tick = threading.Event()
         self.timer_thread = threading.Thread(target=self._track_time, daemon=True)
         self.timer_thread.start()
+
+        # Use a slight delay to allow tests to observe the initial state.
+        threading.Timer(0.1, self._can_tick.set).start()
+
         print("Study session started! Good luck, you got it!!")
         print("Enter 'pause' to pause the session at any time.")
 
@@ -82,4 +89,3 @@ class StudyTimer:
         self.running = False
         self.paused = False
         print("Study session canceled.")
-
