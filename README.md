@@ -44,7 +44,7 @@ print(fun_facts.get("features"))
 
 print("Start a study timer for 2 minutes")
 timer = StudyTimer()  # Create an instance of StudyTimer
-timer.start(2)       # Start a 25-minute study session
+timer.start(25)       # Start a 25-minute study session
 timer.pause()         # Pause the session
 timer.resume()        # Resume the session
 timer.cancel()        # Cancel the session
@@ -52,40 +52,86 @@ timer.cancel()        # Cancel the session
 
 ## Functions
 
-### `debug_tip(error_type)`
+#### `debug_tip(error_type)`
 Returns a random debugging tip for the specified error type.
 - **Parameters**:
    - `error_type` (str): The type of error ("syntax, "runtime", "logic").
 - **Returns**: random debugging tip
 
-#### Example
+##### Example
 ```python
 debug_tip("runtime")
 # Output: "Are you trying to divide by 0? This will cause an error."
 ```
 
-### `language_help(language)`
+#### `language_help(language)`
 Returns a link to documentation for a specified programming language.
 - **Parameters**:
    - `language` (str): The programming language name.
 - **Returns**: a link to documentation.
 
-#### Example
+##### Example
 ```python
 language_help("python")
 # Output: "https://docs.python.org/3/"
 ```
 
-### `get(fact_type)`
+#### `get(fact_type)`
 Returns a random fun fact for the specified fact type.
 - **Parameters**:
    - `fact_type` (str): The type of fact ("features", "libraries", "trivia", "performance").
 - **Returns**: random fun fact
 
-#### Example 
+##### Example 
 ```python
 get("features")
 # Output: "Python uses indentation (whitespace) to define code blocks instead of braces {}."
+```
+### Study Timer
+#### `start(timer_length)`
+Starts timer with length specified in minutes.
+- **Parameters**:
+   - `timer_length` (str): The desired length of the timer in minutes.
+- **Returns**:
+   - No return value
+
+#### `pause()`
+Pauses current timer.
+- **Parameters**:
+   - no parameters
+- **Returns**:
+   - No return value
+
+#### `resume()`
+Resumes paused timer.
+- **Parameters**:
+   - no parameters
+- **Returns**:
+   - No return value
+
+#### `cancel()`
+Ends current session.
+- **Parameters**:
+   - no parameters
+- **Returns**:
+   - No return value
+
+##### Example
+```python
+timer = StudyTimer() # Instantiate study timer class
+timer.start(25) 
+# Output: 
+# Study session started! Good luck, you got it!!
+#Enter 'pause' to pause the session at any time.
+timer.pause()         # Pause the session
+# Output:
+# Study session paused, please enter 'resume' when you want to resume.
+timer.resume()        # Resume the session
+# Output:
+# Resuming now.
+timer.cancel()        # Cancel the session
+#Output:
+# Study session canceled.
 ```
 
 ## Developer Contributions
@@ -130,4 +176,4 @@ If you’d like to contribute:
    git push origin branch-name
    ```
 
-7. Make a pull request on this projects repository on Github.
+7. Make a pull request on this project's repository on Github.
