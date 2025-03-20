@@ -25,7 +25,7 @@ pip install mycodebuddyproject
 ### Step 2: Import Package
 After installing the package, import mycodebuddyproject functions so they can be used directly in your code.
 
-A sample program can be found [here](https://github.com/software-students-spring2025/3-python-package-float/example.py).
+A sample program can be found [here](https://github.com/software-students-spring2025/3-python-package-float/blob/main/example.py).
 
 ```python
 import src.mycodebuddyproject.get_debug_tips as debug
