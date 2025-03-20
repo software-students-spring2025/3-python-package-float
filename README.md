@@ -1,4 +1,4 @@
-# MyCodeBuddy
+# MyCodeBuddyProject
 
 ![Python build & test](https://github.com/software-students-spring2025/3-python-package-float/actions/workflows/build.yaml/badge.svg)
 
@@ -12,7 +12,7 @@ A Python package designed to assist you throughout your coding projects. This pa
 - [Siyu Lei](https://github.com/em815)
 
 ## Link to package on PyPI
-[MyCodeBuddyProject](https://test.pypi.org/project/mycodebuddyproject/0.1.2/#description)
+[MyCodeBuddyProject](https://pypi.org/project/mycodebuddyproject/0.1.2/)
 
 ## Developer Instructions
 
