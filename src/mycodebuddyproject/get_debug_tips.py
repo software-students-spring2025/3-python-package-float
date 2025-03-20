@@ -1,3 +1,19 @@
+"""
+Module: Debugging Tips
+
+This module provides a function to return a random debugging tip based on the given error type.
+Error types include 'syntax', 'runtime', and 'logic'. Each type returns a set of related tips to help debug issues.
+
+Function:
+    debug_tip(error_type): Returns a random tip related to the given error type.
+
+Parameters:
+    error_type (str): Type of error ('syntax', 'runtime', or 'logic').
+
+Returns:
+    str: A random debugging tip or an error message if the type is unsupported.
+"""
+
 import random
 
 tips = {

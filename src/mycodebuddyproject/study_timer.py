@@ -1,10 +1,25 @@
+"""
+This module defines a StudyTimer class that helps manage a study session.
+The timer allows the user to start, pause, resume, and cancel a study session.
+
+The StudyTimer class tracks the elapsed time, notifies the user when the study time is completed,
+and provides basic interaction through the console for controlling the study session.
+
+The functionality includes:
+- Starting a study session with a user-defined time (in minutes).
+- Pausing and resuming the session.
+- Canceling the session before it completes.
+- Tracking the time in a separate thread to simulate a real-time countdown.
+- Displaying messages to inform the user about the current state of the timer.
+"""
+
 import time
 import threading
-from tkinter import messagebox
-import platform
-
 
 class StudyTimer:
+    """
+    Handles the study session timer with the ability to start, pause, resume, and cancel the session.
+    """
     def __init__(self):
         self.study_minutes = None      
         self.start_time = None        
@@ -13,10 +28,13 @@ class StudyTimer:
         self.paused = False            
         self.timer_thread = None      
         self.completed = False  
-        self._can_tick = None  # Internal event to delay tick loop start
+        self._can_tick = None 
 
 
     def _track_time(self):
+        """
+        Tracks the time for the study session in a separate thread.
+        """
         # Wait until ticks are enabled.
         self._can_tick.wait()
         while self.running:
@@ -38,6 +56,9 @@ class StudyTimer:
 
 
     def start(self, minutes = -1):
+        """
+        Starts the study session, either using the provided minutes or asking the user for input.
+        """
         if self.running:
             print("\nStudy session is already running!")
             return
@@ -73,6 +94,9 @@ class StudyTimer:
 
 
     def pause(self):
+        """
+        Pauses the current study session if it's running.
+        """
         if not self.running:
             print("No study session is running.")
             return
@@ -84,6 +108,9 @@ class StudyTimer:
 
 
     def resume(self):
+        """
+        Resumes the study session if it's paused.
+        """
         if not self.running:
             print("No study session is running.")
             return
@@ -95,6 +122,9 @@ class StudyTimer:
 
 
     def cancel(self):
+        """
+        Cancels the current study session if it's running.
+        """
         if not self.running:
             print("No study session is currently running.")
             return
