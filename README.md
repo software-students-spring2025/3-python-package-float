@@ -28,10 +28,10 @@ After installing the package, import mycodebuddyproject functions so they can be
 A sample program can be found [here](https://github.com/software-students-spring2025/3-python-package-float/blob/main/example.py).
 
 ```python
-import src.mycodebuddyproject.get_debug_tips as debug
-import src.mycodebuddyproject.get_help as get_help
-import src.mycodebuddyproject.fun_facts as fun_facts
-from src.mycodebuddyproject.study_timer import StudyTimer
+import mycodebuddyproject.get_debug_tips as debug
+import mycodebuddyproject.get_help as get_help
+import mycodebuddyproject.fun_facts as fun_facts
+from mycodebuddyproject.study_timer import StudyTimer
 
 print("Get a debugging tip for runtime errors")
 print(debug.debug_tip("runtime"))
