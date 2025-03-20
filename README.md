@@ -1,5 +1,7 @@
 # MyCodeBuddy
 
+![Python build & test] (https://github.com/software-students-spring2025/3-python-package-float/actions/workflows/build.yaml/badge.svg)
+
 A Python package designed to assist you throughout your coding projects. This package allows users to receive debugging tips, fun facts, resources for language help, and has a study timer to help users stay focused.
 
 ## Teammates
