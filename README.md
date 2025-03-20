@@ -12,7 +12,7 @@ A Python package designed to assist you throughout your coding projects. This pa
 - [Siyu Lei](https://github.com/em815)
 
 ## Link to package on PyPI
-[MyCodeBuddyProject](https://pypi.org/project/mycodebuddyproject/0.1.3/)
+[MyCodeBuddyProject](https://pypi.org/project/mycodebuddyproject/0.1.4/)
 
 ## Developer Instructions
 
